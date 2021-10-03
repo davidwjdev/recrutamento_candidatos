@@ -25,7 +25,7 @@ class VagasController extends Controller
      */
     public function create()
     {
-        //
+        return view('vagas.form');
     }
 
     /**

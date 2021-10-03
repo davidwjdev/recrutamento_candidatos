@@ -6,7 +6,7 @@ Vagas
 
 @section('content')
 <div class="py-1">
-    <a href="/vagas/create" class="btn btn-success btn-lg px-4 gap-3">Adicionar</a>
+    <a href="/vagas/adicionar" class="btn btn-success btn-lg px-4 gap-3">Adicionar</a>
 </div>
 <div class="py-5">
     <table class="table table-hover table-responsive">
