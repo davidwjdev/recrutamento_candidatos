@@ -36,7 +36,24 @@ class VagasController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'empresa' => 'required',
+            'titulo' => 'required',
+            'descricao' => 'required',
+            'localizacao' => 'required',
+            'nivel' => 'required'
+        ]);
+        $body = $request->all();
+        if(!empty($body['id'])):
+            $vaga = Vaga::find($body['id']);
+        else:
+            $vaga = new Vaga;
+            $vaga = Vaga::create( $body );
+        endif;
+
+        $vaga->save();
+                
+        return redirect('/vagas')->with('success', 'Vaga adicionada.');
     }
 
     /**
@@ -58,7 +75,8 @@ class VagasController extends Controller
      */
     public function edit($id)
     {
-        //
+        $vaga = Vaga::findOrFail($id);
+        return view('vagas.form',['vaga' => $vaga]);
     }
 
     /**

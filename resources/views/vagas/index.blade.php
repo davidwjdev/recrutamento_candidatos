@@ -17,21 +17,23 @@ Vagas
                 <th scope="col">Titulo</th>
                 <th scope="col">Descrição</th>
                 <th scope="col">Localização</th>
+                <th scope="col">Nivel</th>
                 <th scope="col">Ações</th>
             </tr>
         </thead>
         <tbody>
-            @if(!empty($vagas))
+            @if(isset($vagas))
             @foreach($vagas as $key => $value)
             <tr>
-                <th scope="row">1</th>
+                <th scope="row">{{$value->id}}</th>
                 <td>{{$value->empresa}}</td>
                 <td>{{$value->titulo}}</td>
                 <td>{{$value->descricao}}</td>
                 <td>{{$value->localizacao}}</td>
+                <td>{{$value->nivel}}</td>
                 <td>
-                    <a href="/vagas/edit/{{$vaga->id}}" class="btn btn-warning btn-lg px-4 gap-3">Editar</a>
-                    <a href="/vagas/destroy/{{$vaga->id}}" class="btn btn-danger btn-lg px-4 gap-3">Apagar</a>
+                    <a href="/vagas/editar/{{$value->id}}" class="btn btn-warning btn-lg px-4 gap-3">Editar</a>
+                    <a href="/vagas/destroy/id?={{$value->id}}" class="btn btn-danger btn-lg px-4 gap-3">Apagar</a>
                 </td>
             </tr>
             @endforeach

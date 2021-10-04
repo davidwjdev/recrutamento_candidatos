@@ -21,5 +21,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class,'index']);
 Route::get('/vagas', [VagasController::class,'index']);
 Route::get('/vagas/adicionar', [VagasController::class,'create']);
+Route::post('/vagas/adicionar', [VagasController::class,'store']);
+Route::get('/vagas/editar/{id}', [VagasController::class,'edit']);
 
 
