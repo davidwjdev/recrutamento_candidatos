@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Vaga;
 
 use Illuminate\Http\Request;
@@ -15,7 +16,7 @@ class VagasController extends Controller
     public function index()
     {
         $vagas = Vaga::all();
-        return view('vagas.index',compact('vagas'));
+        return view('vagas.index', compact('vagas'));
     }
 
     /**
@@ -44,16 +45,11 @@ class VagasController extends Controller
             'nivel' => 'required'
         ]);
         $body = $request->all();
-        if(!empty($body['id'])):
-            $vaga = Vaga::find($body['id']);
-        else:
-            $vaga = new Vaga;
-            $vaga = Vaga::create( $body );
-        endif;
-
+        $vaga = new Vaga;
+        $vaga = Vaga::create($body);
         $vaga->save();
-                
-        return redirect('/vagas')->with('success', 'Vaga adicionada.');
+
+        return redirect('/vagas');
     }
 
     /**
@@ -64,7 +60,8 @@ class VagasController extends Controller
      */
     public function show($id)
     {
-        //
+        $vaga = Vaga::findOrFail($id);
+        return view('vagas.form', ['vaga' => 'apagar']);
     }
 
     /**
@@ -76,7 +73,7 @@ class VagasController extends Controller
     public function edit($id)
     {
         $vaga = Vaga::findOrFail($id);
-        return view('vagas.form',['vaga' => $vaga]);
+        return view('vagas.form', ['vaga' => $vaga]);
     }
 
     /**
@@ -88,7 +85,19 @@ class VagasController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $vaga = Vaga::findOrFail($id);
+        $request->validate([
+            'empresa' => 'required',
+            'titulo' => 'required',
+            'descricao' => 'required',
+            'localizacao' => 'required',
+            'nivel' => 'required'
+        ]);
+        $input = $request->all();
+        $vaga->fill($input)->save();
+
+        return redirect('/vagas');
+
     }
 
     /**
@@ -99,6 +108,8 @@ class VagasController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $vaga = Vaga::findOrFail($id);
+        $vaga->delete();
+        return redirect('/vagas');
     }
 }

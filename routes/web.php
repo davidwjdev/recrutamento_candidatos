@@ -22,6 +22,8 @@ Route::get('/', [HomeController::class,'index']);
 Route::get('/vagas', [VagasController::class,'index']);
 Route::get('/vagas/adicionar', [VagasController::class,'create']);
 Route::post('/vagas/adicionar', [VagasController::class,'store']);
-Route::get('/vagas/editar/{id}', [VagasController::class,'edit']);
+Route::get('/vagas/editar/id={id}', [VagasController::class,'edit']);
+Route::post('/vagas/editar/id={id}', [VagasController::class,'update']);
+Route::get('/vagas/apagar/id={id}', [VagasController::class,'destroy']);
 
 
