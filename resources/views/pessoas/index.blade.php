@@ -1,12 +1,12 @@
 @extends('layout')
 
 @section('title')
-Vagas
+Pessoas
 @endsection
 
 @section('content')
 <div class="py-1">
-    <a href="/vagas/adicionar" class="btn btn-success btn-lg px-4 gap-3">Adicionar</a>
+    <a href="/pessoas/adicionar" class="btn btn-success btn-lg px-4 gap-3">Adicionar</a>
 </div>
 <div class="py-5">
 
@@ -14,32 +14,30 @@ Vagas
         <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">Empresa</th>
-                <th scope="col">Titulo</th>
-                <th scope="col">Descrição</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Profissão</th>
                 <th scope="col">Localização</th>
                 <th scope="col">Nivel</th>
                 <th scope="col">Ações</th>
             </tr>
         </thead>
         <tbody>
-            @if(count($vagas)==0)
+            @if(count($pessoas)==0)
             <tr>
-                <td scope="row" colspan="7">Não existem vagas cadastradas!</td>
+                <td  colspan="6">Não existem pessoas cadastradas!</td>
             </tr>
             @else
-            @foreach($vagas as $key => $value)
+            @foreach($pessoas as $key => $value)
             <tr>
                 <th scope="row">{{$value->id}}</th>
-                <td>{{$value->empresa}}</td>
-                <td>{{$value->titulo}}</td>
-                <td>{{$value->descricao}}</td>
+                <td>{{$value->nome}}</td>
+                <td>{{$value->profissao}}</td>
                 <td>{{$value->localizacao}}</td>
                 <td>{{$value->nivel}}</td>
                 <td>
-                    <a href="/vagas/editar/id={{$value->id}}" class="btn btn-warning btn-lg px-4 gap-3">Editar</a>
-                    <button data-bs-toggle="modal" data-bs-target="#modalDelete" class="btn btn-danger btn-lg px-4 gap-3">Apagar</button>
-                    @extends('vagas.modal')
+                    <a href="/pessoas/editar/id={{$value->id}}" class="btn btn-warning btn-lg px-4 gap-3">Editar</a>
+                    <button data-bs-toggle="modal" data-bs-target="#modalDelete" class="btn btn-danger btn-lg px-4 gap-3">Apagar</button>      
+                    @extends('pessoas.modal')
                 </td>
             </tr>
             @endforeach

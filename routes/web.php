@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\VagasController;
+use App\Http\Controllers\PessoasController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,10 +16,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
 Route::get('/', [HomeController::class,'index']);
+
 Route::get('/vagas', [VagasController::class,'index']);
 Route::get('/vagas/adicionar', [VagasController::class,'create']);
 Route::post('/vagas/adicionar', [VagasController::class,'store']);
@@ -26,4 +25,9 @@ Route::get('/vagas/editar/id={id}', [VagasController::class,'edit']);
 Route::post('/vagas/editar/id={id}', [VagasController::class,'update']);
 Route::get('/vagas/apagar/id={id}', [VagasController::class,'destroy']);
 
-
+Route::get('/pessoas', [PessoasController::class,'index']);
+Route::get('/pessoas/adicionar', [PessoasController::class,'create']);
+Route::post('/pessoas/adicionar', [PessoasController::class,'store']);
+Route::get('/pessoas/editar/id={id}', [PessoasController::class,'edit']);
+Route::post('/pessoas/editar/id={id}', [PessoasController::class,'update']);
+Route::get('/pessoas/apagar/id={id}', [PessoasController::class,'destroy']);
