@@ -14,7 +14,7 @@ Criar Vaga
         @csrf
         @if(isset($vaga->id))
         <div class="mb-3">
-            <label for="empresa" class="form-label">Id: </label>
+            <label for="id" class="form-label">Id: </label>
             <input type="number" class="form-control" id="id" name="id" aria-describedby="id" value="{{$vaga->id}}" disabled>
         </div>
         @endif

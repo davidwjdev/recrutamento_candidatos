@@ -27,7 +27,7 @@ class PessoasController extends Controller
      */
     public function create()
     {
-        //
+        return view('pessoas.form');
     }
 
     /**
@@ -38,7 +38,18 @@ class PessoasController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nome' => 'required',
+            'profissao' => 'required',
+            'localizacao' => 'required',
+            'nivel' => 'required'
+        ]);
+        $body = $request->all();
+        $pessoa = new Pessoa;
+        $pessoa = Pessoa::create($body);
+        $pessoa->save();
+
+        return redirect('/pessoas');
     }
 
     /**
@@ -60,7 +71,8 @@ class PessoasController extends Controller
      */
     public function edit($id)
     {
-        //
+        $pessoa = Pessoa::findOrFail($id);
+        return view('pessoas.form', ['pessoa' => $pessoa]);
     }
 
     /**
@@ -72,7 +84,17 @@ class PessoasController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $pessoa = Pessoa::findOrFail($id);
+        $request->validate([
+            'nome' => 'required',
+            'profissao' => 'required',
+            'localizacao' => 'required',
+            'nivel' => 'required'
+        ]);
+        $input = $request->all();
+        $pessoa->fill($input)->save();
+
+        return redirect('/pessoas');
     }
 
     /**
@@ -83,6 +105,8 @@ class PessoasController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $pessoa = Pessoa::findOrFail($id);
+        $pessoa->delete();
+        return redirect('/pessoas');
     }
 }

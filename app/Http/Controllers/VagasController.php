@@ -60,8 +60,7 @@ class VagasController extends Controller
      */
     public function show($id)
     {
-        $vaga = Vaga::findOrFail($id);
-        return view('vagas.form', ['vaga' => 'apagar']);
+        //
     }
 
     /**
