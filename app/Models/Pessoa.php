@@ -15,4 +15,7 @@ class Pessoa extends Model
         'localizacao',
         'nivel'
     ];
+
+    protected $table = "pessoas";
+
 }

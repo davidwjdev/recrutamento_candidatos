@@ -3,6 +3,7 @@
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\VagasController;
 use App\Http\Controllers\PessoasController;
+use App\Http\Controllers\CandidaturasController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,3 +32,10 @@ Route::post('/pessoas/adicionar', [PessoasController::class,'store']);
 Route::get('/pessoas/editar/id={id}', [PessoasController::class,'edit']);
 Route::post('/pessoas/editar/id={id}', [PessoasController::class,'update']);
 Route::get('/pessoas/apagar/id={id}', [PessoasController::class,'destroy']);
+
+Route::get('/candidaturas', [CandidaturasController::class,'index']);
+Route::get('/candidaturas/adicionar', [CandidaturasController::class,'create']);
+Route::post('/candidaturas/adicionar', [CandidaturasController::class,'store']);
+Route::get('/candidaturas/editar/id={id}', [CandidaturasController::class,'edit']);
+Route::post('/candidaturas/editar/id={id}', [CandidaturasController::class,'update']);
+Route::get('/candidaturas/apagar/id={id}', [CandidaturasController::class,'destroy']);

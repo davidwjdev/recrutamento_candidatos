@@ -5,18 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Vaga extends Model
+class Candidatura extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'empresa',
-        'titulo',
-        'descricao',
-        'localizacao',
-        'nivel'
+        "id_vaga",
+        "id_pessoa"
     ];
 
-    protected $table = "vagas";
-
+    protected $table = "candidaturas";
+    
 }
