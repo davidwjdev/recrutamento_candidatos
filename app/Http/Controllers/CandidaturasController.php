@@ -20,17 +20,8 @@ class CandidaturasController extends Controller
     public function index()
     {
 
-        $candidaturas = DB::table('candidaturas')->join('vagas','candidaturas.id_vaga','=','vagas.id')->join('pessoas','candidaturas.id_pessoa', '=','pessoas.id')
-        ->select('candidaturas.id','vagas.titulo','pessoas.nome')->get();
-
-        // $candidaturas = Candidatura::all();
-        // $candidaturas->titulo = DB::table('vagas')->select('titulo')->where('id','=',$candidaturas->id_vaga)->get();
-        // $candidaturas->nome = DB::table('pessoas')->select('nome')->where('id','=',$candidaturas->id_pessoa)->get();
-
-        //$candidaturas = Candidatura::join('vagas','candidaturas.id_vagas','=','vagas.id')->select('vagas.nome')->get();
-        // $candidaturas = DB::table('candidaturas')->join('vagas','candidaturas.id_vaga', '=','vagas.id')->join('pessoas','candidaturas.id_pessoa', '=','pessoas.id')
-        // ->select('candidaturas.id','vagas.titulo','pessoas.nome');
-
+        $candidaturas = DB::table('candidaturas')->join('vagas', 'candidaturas.id_vaga', '=', 'vagas.id')->join('pessoas', 'candidaturas.id_pessoa', '=', 'pessoas.id')
+            ->select('candidaturas.id', 'candidaturas.id_vaga', 'vagas.titulo', 'candidaturas.id_pessoa', 'pessoas.nome')->get();
 
         return view('candidaturas.index', compact('candidaturas'));
     }
@@ -42,11 +33,10 @@ class CandidaturasController extends Controller
      */
     public function create()
     {
-        //$candidaturas = Candidatura::with('vagas')->get();
         $vagas = Vaga::all();
         $pessoas = Pessoa::all();
-        
-        return view('candidaturas.form', compact('vagas','pessoas'));
+
+        return view('candidaturas.form', compact('vagas', 'pessoas'));
     }
 
     /**
@@ -64,10 +54,7 @@ class CandidaturasController extends Controller
         $candidatura = new Candidatura;
         $candidatura->id_vaga = $request->input('id_vaga');
         $candidatura->id_pessoa = $request->input('id_pessoa');
-        //$candidatura = Candidatura::create($candidatura);
         $candidatura->save();
-        // $candidatura = Candidatura::create($body);
-        // $candidatura->save();
 
         return redirect('/candidaturas');
     }
@@ -91,7 +78,10 @@ class CandidaturasController extends Controller
      */
     public function edit($id)
     {
-        //
+        $candidatura = Candidatura::findOrFail($id);
+        $vagas = Vaga::all();
+        $pessoas = Pessoa::all();
+        return view('candidaturas.form', ['candidatura' => $candidatura], compact('vagas', 'pessoas'));
     }
 
     /**

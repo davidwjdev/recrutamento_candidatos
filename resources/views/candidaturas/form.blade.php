@@ -16,18 +16,18 @@ Criar Candidatura
         <div class="mb-3">
             <label for="id_vaga" class="form-label">Vaga: </label>
             <select id="id_vaga" class="form-select" name="id_vaga">
-                <option default>Selecione a Vaga</option>
+                <option >Selecione a Vaga</option>
                 @foreach($vagas as $key => $value)
-                <option value="{{$value->id}}">{{$value->id}} - Empresa: {{$value->empresa}} - Titulo: {{$value->titulo}} - Localização: {{$value->localizacao}} - Nivel: {{$value->nivel}}</option>
+                <option  {{ (isset($candidatura->id) && $candidatura->id_vaga == $value->id)  ?  "selected" : ''}}  value="{{isset($candidatura->id) ? $candidatura->id_vaga : $value->id }}">{{$value->id}} - Empresa: {{$value->empresa}} - Titulo: {{$value->titulo}} - Localização: {{$value->localizacao}} - Nivel: {{$value->nivel}}</option>
                 @endforeach
             </select>
         </div>
         <div class="mb-3">
             <label for="id_pessoa" class="form-label">Pessoa: </label>
             <select id="id_pessoa" class="form-select" name="id_pessoa">
-                <option default>Selecione a Pessoa</option>
+                <option>Selecione a Pessoa</option>
                 @foreach($pessoas as $key => $value)
-                <option value="{{$value->id}}">{{$value->id}} - Nome: {{$value->nome}} - Profissão: {{$value->profissao}} - Localização: {{$value->localizacao}} - Nivel: {{$value->nivel}}</option>
+                <option {{ (isset($candidatura->id) && $candidatura->id_pessoa == $value->id)  ?  "selected" : ''}}  value="{{isset($candidatura->id) ? $candidatura->id_pessoa : $value->id}}">{{$value->id}} - Nome: {{$value->nome}} - Profissão: {{$value->profissao}} - Localização: {{$value->localizacao}} - Nivel: {{$value->nivel}}</option>
                 @endforeach
             </select>
         </div>
