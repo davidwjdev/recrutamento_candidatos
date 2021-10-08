@@ -39,3 +39,7 @@ Route::post('/candidaturas/adicionar', [CandidaturasController::class,'store']);
 Route::get('/candidaturas/editar/id={id}', [CandidaturasController::class,'edit']);
 Route::post('/candidaturas/editar/id={id}', [CandidaturasController::class,'update']);
 Route::get('/candidaturas/apagar/id={id}', [CandidaturasController::class,'destroy']);
+
+Route::get('/candidaturas/score', [CandidaturasController::class,'score']);
+Route::get('/candidaturas/score/candidatos', [CandidaturasController::class,'det_score']);
+

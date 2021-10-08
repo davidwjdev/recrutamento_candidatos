@@ -31,6 +31,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/candidaturas">Candidaturas</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/candidaturas/score">Score Candidatos</a>
+                    </li>
                 </ul>
             </div>
         </div>

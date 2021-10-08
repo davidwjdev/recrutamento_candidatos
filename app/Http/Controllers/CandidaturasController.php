@@ -100,7 +100,7 @@ class CandidaturasController extends Controller
         ]);
         $input = $request->all();
         $candidatura->fill($input)->save();
-                
+
         return redirect('/candidaturas');
     }
 
@@ -112,6 +112,14 @@ class CandidaturasController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $candidatura = Candidatura::findOrFail($id);
+        $candidatura->delete();
+        return redirect('/candidaturas');
+    }
+
+    public function score()
+    {
+        $vagas = Vaga::all();
+        return view('candidaturas.score', compact('vagas'));
     }
 }
