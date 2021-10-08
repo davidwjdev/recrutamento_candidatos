@@ -55,7 +55,7 @@ class CandidaturasController extends Controller
         $candidatura->id_vaga = $request->input('id_vaga');
         $candidatura->id_pessoa = $request->input('id_pessoa');
         $candidatura->save();
-
+        $this->calc_score_candidatura(); 
         return redirect('/candidaturas');
     }
 
@@ -121,5 +121,17 @@ class CandidaturasController extends Controller
     {
         $vagas = Vaga::all();
         return view('candidaturas.score', compact('vagas'));
+    }
+
+    public function calc_score_candidatura()
+    {
+        $score_candidato = DB::table('candidaturas')->join('vagas', 'candidaturas.id_vaga', '=', 'vagas.id')->join('pessoas', 'candidaturas.id_pessoa', '=', 'pessoas.id')
+        ->select('candidaturas.id', 'candidaturas.id_vaga', 'vagas.titulo', 'candidaturas.id_pessoa', 'pessoas.nome')->get();
+        $NV = $score_candidato->VAR1;
+        $NC = $score_candidato->VAR2;
+        $D = $score_candidato->VAR3;
+        $N = 100-25* ($NV - $NC);
+        $SCORE = ($N + $D)/2;
+
     }
 }
