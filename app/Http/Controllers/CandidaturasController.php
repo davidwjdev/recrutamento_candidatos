@@ -93,7 +93,15 @@ class CandidaturasController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $candidatura = Candidatura::findOrFail($id);
+        $request->validate([
+            'id_vaga' => 'required',
+            'id_pessoa' => 'required'
+        ]);
+        $input = $request->all();
+        $candidatura->fill($input)->save();
+                
+        return redirect('/candidaturas');
     }
 
     /**
