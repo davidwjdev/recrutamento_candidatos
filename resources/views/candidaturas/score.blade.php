@@ -35,7 +35,7 @@ Vagas
                 <td>{{$value->localizacao}}</td>
                 <td>{{$value->nivel}}</td>
                 <td>
-                    <a href="/candidaturas/score/candidatos" class="btn btn-success btn-lg px-4 gap-3">Ver candidatos</a>
+                    <a href="/candidaturas/score/id_candidatura={{$value->id}}" class="btn btn-success btn-lg px-4 gap-3">Ver candidatos</a>
                 </td>
             </tr>
             @endforeach

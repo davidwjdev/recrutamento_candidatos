@@ -6,7 +6,7 @@ use App\Models\Candidatura;
 use App\Models\Vaga;
 use App\Models\Pessoa;
 
-
+use App\Http\Controllers\SplQueue;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -54,8 +54,122 @@ class CandidaturasController extends Controller
         $candidatura = new Candidatura;
         $candidatura->id_vaga = $request->input('id_vaga');
         $candidatura->id_pessoa = $request->input('id_pessoa');
+
+        // $vaga = Vaga::where('id',$candidatura->id_vaga)->select('localizacao LV','nivel as NV')->get();
+        // $pessoa = Pessoa::where('id',$candidatura->id_pessoa)->select('localizacao as LC','nivel as NC')->get();
+        
+        // $candidatura->save();
+
+
+        // $score_candidato = DB::table('candidaturas')
+        // ->join('vagas', 'candidaturas.id_vaga', '=', 'vagas.id')
+        // ->join('pessoas', 'candidaturas.id_pessoa', '=', 'pessoas.id')
+        // ->where([['candidaturas.id_vaga','=', $id_vaga],['candidaturas.id_pessoa','=',  $id_pessoa]])
+        // ->select('candidaturas.id', 'vagas.localizacao as LV', 'vagas.nivel as NV', 'pessoas.localizacao as LC', 'pessoas.nivel as NC')
+        // ->get();
+        
+        $LV =  Vaga::where('id',$candidatura->id_vaga)->select('localizacao')->value("localizacao");
+        $NV =  Vaga::where('id',$candidatura->id_vaga)->select('nivel')->value("nivel");
+
+        $LC =  Pessoa::where('id',$candidatura->id_pessoa)->select('localizacao')->value("localizacao");
+        $NC =  Pessoa::where('id',$candidatura->id_pessoa)->select('nivel')->value("nivel");
+
+        IF($LV == $LC){
+            $SUM = 0;
+        }ELSEIF($LV == "A" ){
+            IF($LC == "B"){
+                $SUM = 5;
+            }ELSEIF($LC == "C"){
+                $SUM = 12;
+            }ELSEIF($LC == "D"){
+                $SUM = 8;
+            }ELSEIF($LC == "E"){
+                $SUM = 12;
+            }ELSEIF($LC == "F"){
+                $SUM = 16;
+            }
+        }ELSEIF($LV == "B" ){
+            IF($LC == "A"){
+                $SUM = 5;
+            }ELSEIF($LC == "C"){
+                $SUM = 7;
+            }ELSEIF($LC == "D"){
+                $SUM = 3;
+            }ELSEIF($LC == "E"){
+                $SUM = 11;
+            }ELSEIF($LC == "F"){
+                $SUM = 11;
+            }
+        }ELSEIF($LV == "C" ){
+            IF($LC == "A"){
+                $SUM = 12;
+            }ELSEIF($LC == "B"){
+                $SUM = 7;
+            }ELSEIF($LC == "D"){
+                $SUM = 10;
+            }ELSEIF($LC == "E"){
+                $SUM = 4;
+            }ELSEIF($LC == "F"){
+                $SUM = 18;
+            }
+        }ELSEIF($LV == "D" ){
+            IF($LC == "A"){
+                $SUM = 8;
+            }ELSEIF($LC == "B"){
+                $SUM = 3;
+            }ELSEIF($LC == "C"){
+                $SUM = 10;
+            }ELSEIF($LC == "E"){
+                $SUM = 10;
+            }ELSEIF($LC == "F"){
+                $SUM = 8;
+            }
+        }ELSEIF($LV == "E" ){
+            IF($LC == "A"){
+                $SUM = 16;
+            }ELSEIF($LC == "B"){
+                $SUM = 11;
+            }ELSEIF($LC == "C"){
+                $SUM = 4;
+            }ELSEIF($LC == "D"){
+                $SUM = 10;
+            }ELSEIF($LC == "F"){
+                $SUM = 18;
+            }
+        }ELSEIF($LV == "F" ){
+            IF($LC == "A"){
+                $SUM = 16;
+            }ELSEIF($LC == "B"){
+                $SUM = 11;
+            }ELSEIF($LC == "C"){
+                $SUM = 18;
+            }ELSEIF($LC == "D"){
+                $SUM = 8;
+            }ELSEIF($LC == "E"){
+                $SUM = 18;
+            }
+        }
+
+        IF($SUM <= 5){
+            $D = 100;
+        }ELSEIF($SUM > 5 && $SUM <= 10){
+            $D = 75;
+        }ELSEIF($SUM > 10 && $SUM <= 15){
+            $D = 50;
+        }ELSEIF($SUM > 15 && $SUM <= 20){
+            $D = 25;
+        }ELSEIF($SUM > 20){
+            $D = 0;
+        }
+
+        $N = 100 - 25 * ($NV - $NC);
+        $SCORE = ($N + $D)/2;
+
+        $candidatura->score = $SCORE;
+        
         $candidatura->save();
-        $this->calc_score_candidatura(); 
+
+
         return redirect('/candidaturas');
     }
 
@@ -119,19 +233,24 @@ class CandidaturasController extends Controller
 
     public function score()
     {
-        $vagas = Vaga::all();
+        // $vagas = Vaga::all();
+
+        $vagas = DB::table('candidaturas')->join('vagas', 'candidaturas.id_vaga', '=', 'vagas.id')
+        ->get();
+
         return view('candidaturas.score', compact('vagas'));
     }
 
-    public function calc_score_candidatura()
+    public function det_score()
     {
-        $score_candidato = DB::table('candidaturas')->join('vagas', 'candidaturas.id_vaga', '=', 'vagas.id')->join('pessoas', 'candidaturas.id_pessoa', '=', 'pessoas.id')
-        ->select('candidaturas.id', 'candidaturas.id_vaga', 'vagas.titulo', 'candidaturas.id_pessoa', 'pessoas.nome')->get();
-        $NV = $score_candidato->VAR1;
-        $NC = $score_candidato->VAR2;
-        $D = $score_candidato->VAR3;
-        $N = 100-25* ($NV - $NC);
-        $SCORE = ($N + $D)/2;
+        $pessoas = DB::table('candidaturas')->join('vagas', 'candidaturas.id_vaga', '=', 'vagas.id')->join('pessoas', 'candidaturas.id_pessoa', '=', 'pessoas.id')
+        ->select('candidaturas.id_pessoa', 'pessoas.nome', 'pessoas.profissao', 'pessoas.localizacao', 'pessoas.nivel', 'candidaturas.score')->orderBy('candidaturas.score', 'DESC')->get();
 
+        return view('candidaturas.det_score', compact('pessoas'));
     }
+
+
 }
+
+
+

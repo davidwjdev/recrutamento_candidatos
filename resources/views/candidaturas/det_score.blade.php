@@ -20,14 +20,10 @@ Score Candidatos
             </tr>
         </thead>
         <tbody>
-            @if(count($candidaturas)==0)
+
+            @foreach($pessoas as $key => $value)
             <tr>
-                <td  colspan="6">Não existem candidaturas cadastradas!</td>
-            </tr>
-            @else
-            @foreach($candidaturas as $key => $value)
-            <tr>
-                <th scope="row">{{$value->id}}</th>
+                <th scope="row">{{$value->id_pessoa}}</th>
                 <th scope="row">{{$value->nome}}</th>
                 <th scope="row">{{$value->profissao}}</th>
                 <th scope="row">{{$value->localizacao}}</th>
@@ -35,7 +31,6 @@ Score Candidatos
                 <th scope="row">{{$value->score}}</th>
             </tr>
             @endforeach
-            @endif
         </tbody>
     </table>
 </div>

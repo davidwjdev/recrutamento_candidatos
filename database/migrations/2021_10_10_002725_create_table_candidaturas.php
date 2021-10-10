@@ -17,8 +17,11 @@ class CreateTableCandidaturas extends Migration
             $table->id();
             $table->unsignedBigInteger('id_vaga');
             $table->unsignedBigInteger('id_pessoa');
+            $table->integer('score')->nullable();
+            
             $table->foreign('id_vaga')->references('id')->on('vagas');
             $table->foreign('id_pessoa')->references('id')->on('pessoas');
+
             $table->timestamps();
         });
     }

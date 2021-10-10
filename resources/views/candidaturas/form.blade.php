@@ -21,12 +21,21 @@ Criar Candidatura
         @endif
         <div class="mb-3">
             <label for="id_vaga" class="form-label">Vaga: </label>
+            
             <select id="id_vaga" class="form-select" name="id_vaga">
+            
                 <option>Selecione a Vaga</option>
                 @foreach($vagas as $key => $value)
-                <option {{ (isset($candidatura->id) && $candidatura->id_vaga == $value->id)  ?  "selected" : ''}} value="{{isset($candidatura->id) ? $candidatura->id_vaga : $value->id }}">{{$value->id}} - Empresa: {{$value->empresa}} - Titulo: {{$value->titulo}} - Localização: {{$value->localizacao}} - Nivel: {{$value->nivel}}</option>
+                <option {{ (isset($candidatura->id) && $candidatura->id_vaga == $value->id)  ?  "selected" : ''}}
+                 value="{{isset($candidatura->id) ? $candidatura->id_vaga : $value->id }}">{{$value->id}} - Empresa: {{$value->empresa}} - Titulo: {{$value->titulo}} - Localização: {{$value->localizacao}} - Nivel: {{$value->nivel}}</option>
                 @endforeach
+                
             </select>
+            
+            <input type="hidden" id="LV" name="LV" aria-describedby="id" value="{{$value->localizacao}}" >
+            <input type="hidden" id="NV" name="NV" aria-describedby="id" value="{{$value->nivel}}" >
+
+            
         </div>
         <div class="mb-3">
             <label for="id_pessoa" class="form-label">Pessoa: </label>
