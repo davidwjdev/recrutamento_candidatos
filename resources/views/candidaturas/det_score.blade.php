@@ -5,6 +5,9 @@ Score Candidatos
 @endsection
 
 @section('content')
+<div class="py-1">
+    <a href="/candidaturas/score/" class="btn btn-success btn-lg px-4 gap-3">Voltar</a>
+</div>
 
 <div class="py-5">
 
