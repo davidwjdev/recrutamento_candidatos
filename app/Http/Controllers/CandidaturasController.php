@@ -233,18 +233,28 @@ class CandidaturasController extends Controller
 
     public function score()
     {
-        // $vagas = Vaga::all();
 
-        $vagas = DB::table('candidaturas')->join('vagas', 'candidaturas.id_vaga', '=', 'vagas.id')
+        $vagas = DB::table('candidaturas')
+        ->join('vagas', 'candidaturas.id_vaga', '=', 'vagas.id')
+        ->select('vagas.id', 'vagas.empresa','vagas.titulo', 'vagas.descricao', 'vagas.localizacao', 'vagas.nivel')
+        ->groupBy('vagas.id', 'vagas.empresa','vagas.titulo', 'vagas.descricao', 'vagas.localizacao', 'vagas.nivel')
         ->get();
+
+        //echo $vagas;
 
         return view('candidaturas.score', compact('vagas'));
     }
 
-    public function det_score()
+    public function det_score($id)
     {
-        $pessoas = DB::table('candidaturas')->join('vagas', 'candidaturas.id_vaga', '=', 'vagas.id')->join('pessoas', 'candidaturas.id_pessoa', '=', 'pessoas.id')
-        ->select('candidaturas.id_pessoa', 'pessoas.nome', 'pessoas.profissao', 'pessoas.localizacao', 'pessoas.nivel', 'candidaturas.score')->orderBy('candidaturas.score', 'DESC')->get();
+        $pessoas = DB::table('candidaturas')
+        ->join('vagas', 'candidaturas.id_vaga', '=', 'vagas.id')
+        ->join('pessoas', 'candidaturas.id_pessoa', '=', 'pessoas.id')
+        ->where('vagas.id','=',$id)
+        ->select('candidaturas.id_pessoa', 'pessoas.nome', 'pessoas.profissao', 'pessoas.localizacao', 'pessoas.nivel', 'candidaturas.score')
+        ->orderBy('candidaturas.score', 'DESC')
+        ->get();
+
 
         return view('candidaturas.det_score', compact('pessoas'));
     }

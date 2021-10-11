@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('title')
-Vagas
+Score
 @endsection
 
 @section('content')
